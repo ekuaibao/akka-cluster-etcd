@@ -1,4 +1,5 @@
 import Settings._
+import sbt._
 
 scalaVersion := "2.11.7"
 
@@ -10,14 +11,18 @@ val mocitoVersion = "1.10.19"
 import com.typesafe.sbt.SbtMultiJvm
 import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 
+// temporary fix bugs in etcd-client
+lazy val client = ProjectRef(file("../etcd-client"), "client")
+
 lazy val discovery = project.
     in(file("etcd-discovery")).
+    dependsOn(client).
     settings(commonSettings ++ SbtMultiJvm.multiJvmSettings ++ Seq(
         name := "akka-cluster-discovery-etcd",
         libraryDependencies ++= Seq(
             "com.typesafe.akka" %% "akka-actor" % akkaVersion,
             "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
-            "me.maciejb.etcd-client" %% "etcd-client" % etcdClientVersion,
+            // "me.maciejb.etcd-client" %% "etcd-client" % etcdClientVersion,
             "com.typesafe.akka" %% "akka-multi-node-testkit" % akkaVersion % "test",
             "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
             "org.mockito" % "mockito-core" % mocitoVersion % "test"
