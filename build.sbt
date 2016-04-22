@@ -1,21 +1,6 @@
+import Settings._
+
 scalaVersion := "2.11.7"
-
-import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-
-val scalariformPrefs = {
-  import java.util.Properties
-  import scalariform.formatter.preferences._
-  val props = new Properties()
-  IO.load(props, file("scalariform.properties"))
-  PreferencesImporterExporter.getPreferences(props)
-}
-
-lazy val commonSettings = Seq(
-    version := "0.1.0",
-    organization := "pl.caltha",
-    scalaVersion := "2.11.7",
-    ScalariformKeys.preferences := scalariformPrefs
-)
 
 val akkaVersion = "2.4.2"
 val etcdClientVersion = "0.0.2"
